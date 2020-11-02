@@ -16,7 +16,7 @@ function generateMarkdown(data) {
 
   
   ## Installation
-  ${data.description}
+  ${data.installation}
 
   ## Usage
   ${data.usage}
@@ -31,9 +31,9 @@ function generateMarkdown(data) {
   ${data.tests}
 
   ## Questions
-  * If there are any questions, you can reach out to me through GitHub or my email below:
-    * ${data.username}
-    * ${data.email}
+  * If there are any questions, you can reach out to me through my email below:
+    * GitHub Profile:${data.username}
+    * Email Address: ${data.email}
   
 `;
 }
