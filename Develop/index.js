@@ -1,13 +1,13 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const generateMarkdown = require('./utils/generateMarkdown');
+const generateReadMe = require('./utils/generateMarkdown');
 
 
-// array of questions for user Project Info
+// array of questions for user
 const questions = [
     {
         type: 'input',
-        name: 'Project',
+        name: 'title',
         message: 'What is the name of your project? (required):',
         validate: projectInput => {
             if (projectInput) {
@@ -20,7 +20,7 @@ const questions = [
     },
     {
         type: 'input',
-        name: 'Description',
+        name: 'description',
         message: 'Provide a description of your project (required):',
         validate: descriptionInput => {
             if (descriptionInput) {
@@ -33,28 +33,28 @@ const questions = [
     },
     {
         type: 'input',
-        name: 'Installation',
+        name: 'installation',
         message: 'What are the steps required to install your project?'
     },
     {
         type: 'input',
-        name: 'Usage',
+        name: 'usage',
         message: 'Provide instructions and examples for use:'
     },
     {
         type: 'checkbox',
-        name: 'License',
+        name: 'license',
         message: "Choose the licenses for your project:",
         choices: ['MIT', 'GNU GPLv3', 'Apache', 'Mozilla Public', 'GNU AGPLv3', 'Boost Software']
     },
     {
         type: 'input',
-        name: 'Contributors',
+        name: 'contributors',
         message: 'List your collaborators, if any:',
     },
     {
         type: 'input',
-        name: 'Tests',
+        name: 'tests',
         message: 'Provide examples of tests written for your application and how to run them:'
     },
     {
@@ -87,12 +87,27 @@ const questions = [
 
 // function to write README file
 function writeToFile(fileName, data) {
-}
+    fs.writeFile(fileName, data, err => {
+        if (err) throw err;
+
+        console.log('README has been generated!')
+    });
+};
 
 // function to initialize program
 function init() {
-    return inquirer.prompt(questions);
-}
+    inquirer
+        .prompt(questions)
+        .then(data => {
+            return generateReadMe(data);
+        })
+        .then(data => {
+            return writeToFile('README.md', data)
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
 
 // function call to initialize program
 init();
